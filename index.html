@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端核心适配标签：确保自适应屏幕，禁止用户缩放 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>圣诞苹果惊喜（手机适配版）</title>
+    <style>
+        /* 页面基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: "微软雅黑", sans-serif;
+            color: #fff;
+            padding: 20px; /* 手机端增加内边距，避免元素贴边 */
+        }
+
+        /* 触发链接样式（手机端优化尺寸和触摸区域） */
+        .christmas-link {
+            font-size: 18px; /* 手机端适配字体大小 */
+            color: #fff;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px 24px; /* 优化内边距，增大触摸区域 */
+            border-radius: 50px;
+            margin-bottom: 50px;
+            transition: all 0.3s ease;
+            border: 2px solid #fff;
+            min-width: 200px; /* 保证链接最小宽度，方便触摸 */
+            text-align: center; /* 文字居中，美观度提升 */
+        }
+
+        .christmas-link:hover,
+        .christmas-link:active { /* 增加active状态，适配手机触摸反馈 */
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* 圣诞苹果容器（默认隐藏） */
+        .apple-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.5s ease-in-out;
+            padding: 20px; /* 手机端避免苹果贴边 */
+        }
+
+        /* 圣诞苹果样式（手机端适配尺寸） */
+        .christmas-apple {
+            width: 160px; /* 手机端缩小苹果尺寸，适配屏幕 */
+            height: 200px;
+            background: radial-gradient(circle at 30% 30%, #e74c3c, #c0392b);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            animation: popUp 1s ease-out, swing 3s infinite alternate;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+        }
+
+        /* 苹果叶子 */
+        .apple-leaf {
+            width: 50px;
+            height: 35px;
+            background: radial-gradient(circle, #2ecc71, #27ae60);
+            border-radius: 0 100px 100px 0;
+            position: absolute;
+            top: -18px;
+            right: 25px;
+            transform: rotate(30deg);
+        }
+
+        /* 苹果果柄 */
+        .apple-stem {
+            width: 8px;
+            height: 25px;
+            background: #8b4513;
+            position: absolute;
+            top: -12px;
+            right: 40px;
+            border-radius: 5px;
+            transform: rotate(-10deg);
+        }
+
+        /* 苹果装饰亮点 */
+        .apple-spot {
+            width: 35px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            position: absolute;
+            top: 35px;
+            left: 25px;
+        }
+
+        /* 关闭按钮（手机端优化尺寸和触摸区域） */
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 28px; /* 适配手机字体大小 */
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 40px; /* 增大触摸区域 */
+            height: 40px; /* 增大触摸区域 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover,
+        .close-btn:active { /* 手机触摸反馈 */
+            transform: rotate(90deg);
+        }
+
+        /* 淡入动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 弹出动画 */
+        @keyframes popUp {
+            0% {
+                opacity: 0;
+                transform: scale(0) translateY(100px);
+            }
+            70% {
+                transform: scale(1.1) translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* 摇摆动画（手机端适度减小摇摆幅度） */
+        @keyframes swing {
+            from {
+                transform: rotate(-4deg);
+            }
+            to {
+                transform: rotate(4deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 触发链接 -->
+    <a href="javascript:void(0);" class="christmas-link" id="appleLink">点击我领取圣诞苹果 🎄</a>
+
+    <!-- 圣诞苹果弹窗 -->
+    <div class="apple-container" id="appleModal">
+        <div class="close-btn" id="closeBtn">&times;</div>
+        <div class="christmas-apple">
+            <div class="apple-leaf"></div>
+            <div class="apple-stem"></div>
+            <div class="apple-spot"></div>
+        </div>
+    </div>
+
+    <script>
+        // 获取元素
+        const appleLink = document.getElementById('appleLink');
+        const appleModal = document.getElementById('appleModal');
+        const closeBtn = document.getElementById('closeBtn');
+
+        // 点击/触摸链接触发弹窗（适配手机触摸事件）
+        appleLink.addEventListener('click', triggerAppleModal);
+        appleLink.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // 阻止默认触摸行为（避免页面滚动）
+            triggerAppleModal();
+        });
+
+        // 点击/触摸关闭按钮隐藏弹窗
+        closeBtn.addEventListener('click', closeAppleModal);
+        closeBtn.addEventListener('touchstart', function(e) {
+            e.preventDefault();
+            closeAppleModal();
+        });
+
+        // 点击/触摸弹窗背景关闭弹窗
+        appleModal.addEventListener('click', function(e) {
+            if (e.target === appleModal) {
+                closeAppleModal();
+            }
+        });
+        appleModal.addEventListener('touchstart', function(e) {
+            if (e.target === appleModal) {
+                e.preventDefault();
+                closeAppleModal();
+            }
+        });
+
+        // 弹窗显示函数
+        function triggerAppleModal() {
+            appleModal.style.display = 'flex';
+        }
+
+        // 弹窗关闭函数
+        function closeAppleModal() {
+            appleModal.style.display = 'none';
+        }
+
+        // 可选：页面加载后自动弹出
+        // window.addEventListener('load', function() {
+        //     setTimeout(() => {
+        //         appleModal.style.display = 'flex';
+        //     }, 1000);
+        // });
+    </script>
+</body>
+</html>
